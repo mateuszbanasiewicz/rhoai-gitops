@@ -1,0 +1,84 @@
+---
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainingRuntime
+metadata:
+  name: mnist-torch-runtime
+  namespace: demo
+  labels:
+    trainer.kubeflow.org/framework: torch
+spec:
+  mlPolicy:
+    numNodes: 1
+    torch:
+      numProcPerNode: auto
+  template:
+    spec:
+      replicatedJobs:
+        - groupName: default
+          name: node
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                trainer.kubeflow.org/trainjob-ancestor-step: trainer
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: node
+                      securityContext:
+                        runAsUser: 0
+                      image: internal-quay-quay.apps.ocpai.lab.cloudware.pl/rhoai/training/train-model-a:main
+                      resources: {}
+                      volumeMounts:
+                        - name: training-data
+                          mountPath: /data
+                        - name: model-output
+                          mountPath: /output
+                  volumes:
+                    - name: training-data
+                      persistentVolumeClaim:
+                        claimName: mnist-data-pvc
+                    - name: model-output
+                      persistentVolumeClaim:
+                        claimName: mnist-output-pvc
+---
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: mnist-trainjob
+  namespace: demo
+  labels:
+    app: mnist-training
+    kueue.x-k8s.io/queue-name: default
+spec:
+  activeDeadlineSeconds: 3600
+  runtimeRef:
+    apiGroup: trainer.kubeflow.org
+    kind: TrainingRuntime
+    name: mnist-torch-runtime
+
+  trainer:
+    numNodes: 1
+    image: internal-quay-quay.apps.ocpai.lab.cloudware.pl/rhoai/training/train-model-a:main
+    command:
+      - python
+      - /workspace/train.py
+    args:
+      - "--epochs=5"
+      - "--batch-size=64"
+      - "--lr=0.001"
+      - "--data-dir=/data"
+      - "--output-dir=/output"
+    env:
+      - name: PYTHONUNBUFFERED
+        value: "1"
+    resourcesPerNode:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+        # nvidia.com/gpu: "1"
+      limits:
+        cpu: "4"
+        memory: "8Gi"
+        # nvidia.com/gpu: "1"

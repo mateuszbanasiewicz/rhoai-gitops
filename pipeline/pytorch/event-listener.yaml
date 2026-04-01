@@ -1,0 +1,29 @@
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: build-training-pytorch-job-listener
+  namespace: demo
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - name: github-trigger
+      bindings:
+        - ref: build-training-pytorch-job-binding
+      template:
+        ref: build-training-pytorch-job-template
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: build-training-pytorch-job-webhook
+  namespace: demo
+spec:
+  to:
+    kind: Service
+    name: el-build-training-pytorch-job-listener
+  port:
+    targetPort: http-listener
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

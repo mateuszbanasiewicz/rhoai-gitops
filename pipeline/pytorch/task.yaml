@@ -1,0 +1,18 @@
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: short-commit
+  namespace: demo
+spec:
+  params:
+    - name: commit
+      type: string
+  results:
+    - name: short-commit
+  steps:
+    - name: trim
+      image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+      script: |
+        #!/bin/sh
+        printf "%.7s" "$(params.commit)" > $(results.short-commit.path)

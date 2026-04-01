@@ -1,0 +1,40 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: build-training-pytorch-job-template
+  namespace: demo
+spec:
+  params:
+    - name: git-url
+    - name: git-revision
+      default: main
+    - name: image-name
+      default: train-model-a
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: run-
+        namespace: demo
+      spec:
+        pipelineRef:
+          name: build-training-pytorch-job
+        serviceAccountName: pipeline
+        params:
+          - name: git-url
+            value: $(tt.params.git-url)
+          - name: git-revision
+            value: $(tt.params.git-revision)
+          - name: image-name
+            value: $(tt.params.image-name)
+          - name: dockerfile-path
+            value: ./Dockerfile
+        workspaces:
+          - name: source
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 5Gi

@@ -1,0 +1,31 @@
+# apiVersion: tekton.dev/v1
+# kind: PipelineRun
+# metadata:
+#   generateName: run-
+#   namespace: demo
+# spec:
+#   params:
+#     - name: git-url
+#       value: 'https://github.com/mateuszbanasiewicz/pytorchjob.git'
+#     - name: git-revision
+#       value: main
+#     - name: image-name
+#       value: pytorch-job
+#     - name: dockerfile-path
+#       value: ./Dockerfile
+#   pipelineRef:
+#     name: build-training-pytorch-job
+#   taskRunTemplate:
+#     serviceAccountName: pipeline
+#   workspaces:
+#     - name: source
+#       volumeClaimTemplate:
+#         metadata:
+#           creationTimestamp: null
+#         spec:
+#           accessModes:
+#             - ReadWriteOnce
+#           resources:
+#             requests:
+#               storage: 1Gi
+# 
