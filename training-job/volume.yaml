@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mnist-data-pvc
+  name: training-pytorch-data-pvc
   namespace: demo
 spec:
   accessModes: [ReadWriteOnce]
@@ -13,7 +13,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mnist-output-pvc
+  name: training-pytorch-output-pvc
   namespace: demo
 spec:
   accessModes: [ReadWriteOnce]

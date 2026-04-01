@@ -2,7 +2,7 @@
 apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainingRuntime
 metadata:
-  name: mnist-torch-runtime
+  name: training-pytorch-runtime
   namespace: demo
   labels:
     trainer.kubeflow.org/framework: torch
@@ -38,25 +38,25 @@ spec:
                   volumes:
                     - name: training-data
                       persistentVolumeClaim:
-                        claimName: mnist-data-pvc
+                        claimName: training-pytorch-data-pvc
                     - name: model-output
                       persistentVolumeClaim:
-                        claimName: mnist-output-pvc
+                        claimName: training-pytorch-output-pvc
 ---
 apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainJob
 metadata:
-  name: mnist-trainjob
+  name: training-pytorch-trainjob
   namespace: demo
   labels:
-    app: mnist-training
+    app: training-pytorch
     kueue.x-k8s.io/queue-name: default
 spec:
   activeDeadlineSeconds: 3600
   runtimeRef:
     apiGroup: trainer.kubeflow.org
     kind: TrainingRuntime
-    name: mnist-torch-runtime
+    name: training-pytorch-runtime
 
   trainer:
     numNodes: 1
