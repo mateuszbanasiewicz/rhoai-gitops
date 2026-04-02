@@ -35,7 +35,7 @@ spec:
             - name: MODEL_NAME
               value: "test333-v1"
             - name: MODEL_URL
-              value: "http://test333-v1-predictor.aaa.svc.cluster.local"
+              value: "http://test333-v1-predictor.aaa.svc.cluster.local:8888"
             - name: SCALER_PATH
               value: "/app/scaler.joblib"
           volumeMounts:
