@@ -9,7 +9,7 @@ spec:
     - name: git-revision
       default: main
     - name: image-name
-      default: train-model-a
+      default: pytorch-job
   resourcetemplates:
     - apiVersion: tekton.dev/v1
       kind: PipelineRun

@@ -1,0 +1,29 @@
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: kfp-pipeline-publish-listener
+  namespace: demo
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - name: github-trigger
+      bindings:
+        - ref: kfp-pipeline-publish-binding
+      template:
+        ref: kfp-pipeline-publish-template
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kfp-pipeline-publish-webhook
+  namespace: demo
+spec:
+  to:
+    kind: Service
+    name: el-kfp-pipeline-publish-listener
+  port:
+    targetPort: http-listener
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

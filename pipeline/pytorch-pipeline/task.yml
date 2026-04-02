@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kfp-compile-and-upload
+  namespace: demo
+spec:
+  params:
+    - name: pipeline-script
+      description: Ścieżka do pliku .py względem root repo
+      default: pipeline.py
+    - name: pipeline-yaml
+      description: Nazwa wyjściowego pliku YAML
+      default: pipeline.yaml
+    - name: kfp-api-url
+      description: "https://ds-pipeline-dspa-demo.apps.ocpai.lab.cloudware.pl"
+    - name: pipeline-version
+      description: Wersja pipeline np. git commit SHA
+      default: "latest"
+    - name: pipeline-id
+      description: "ID istniejącego pipeline (opcjonalne do upload_version)"
+      default: ""
+  workspaces:
+    - name: source
+  results:
+    - name: pipeline-id
+    - name: version-id
+  steps:
+    # ── 1. Instalacja zależności + kompilacja ──────────────────────────────────
+    - name: compile
+      image: registry.access.redhat.com/ubi9/python-311:latest
+      workingDir: /workspace/source
+      script: |
+        #!/bin/sh
+        set -e
+        echo "==> Instaluję kfp"
+        pip install kfp==2.* --no-cache-dir
+
+        echo "==> Kompiluję pipeline: $(params.pipeline-script)"
+        python3 $(params.pipeline-script)
+
+        ls -la
+
+    # ── 2. Upload / nowa wersja ───────────────────────────────────────────────
+    - name: upload
+      image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+      workingDir: /workspace/source
+      script: |
+        #!/bin/sh
+        set -e
+
+        TOKEN="sha256~nWcDj-iH38Dhc03pbNOEjBTnBUihf3JIZ2ItAdnQ5U4"
+        BASE="$(params.kfp-api-url)/apis/v2beta1"
+        EXISTING_PIPELINE_ID="$(params.pipeline-id)"
+
+
+        curl -k -X POST \
+        "${BASE}/pipelines/upload?name=pytorch-pipeline" \
+        -H "Authorization: Bearer ${TOKEN}" \
+        -F "uploadfile=@enterprise_pytorch_pipeline.yaml;type=application/yaml" \
+        -o response.json
+
+        cat response.json

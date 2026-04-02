@@ -1,0 +1,55 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: kfp-pipeline-publish
+  namespace: demo
+spec:
+  params:
+    - name: repo-url
+      description: "https://github.com/org/repo.git"
+    - name: repo-revision
+      default: main
+    - name: pipeline-script
+      default: pipeline.py
+    - name: pipeline-yaml
+      default: pipeline.yaml
+    - name: kfp-api-url
+      description: ""
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: URL
+          value: $(params.repo-url)
+        - name: REVISION
+          value: $(params.repo-revision)
+        - name: DELETE_EXISTING
+          value: 'true'
+        - name: SSL_VERIFY
+          value: 'true'
+        - name: VERBOSE
+          value: 'false'
+
+    - name: compile-and-upload
+      runAfter: [clone]
+      taskRef:
+        name: kfp-compile-and-upload
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: pipeline-script
+          value: $(params.pipeline-script)
+        - name: pipeline-yaml
+          value: $(params.pipeline-yaml)
+        - name: kfp-api-url
+          value: $(params.kfp-api-url)
+        - name: pipeline-version
+          # git commit SHA jako wersja
+          value: $(tasks.clone.results.COMMIT)

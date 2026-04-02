@@ -52,7 +52,6 @@ metadata:
     app: training-pytorch
     kueue.x-k8s.io/queue-name: default
 spec:
-  activeDeadlineSeconds: 3600
   runtimeRef:
     apiGroup: trainer.kubeflow.org
     kind: TrainingRuntime

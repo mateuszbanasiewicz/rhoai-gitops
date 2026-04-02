@@ -1,0 +1,41 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: kfp-pipeline-publish-template
+  namespace: demo
+spec:
+  params:
+    - name: repo-url
+    - name: repo-revision
+      default: main
+    - name: pipeline-script
+      default: pipeline.py
+    - name: kfp-api-url
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: run-
+        namespace: demo
+      spec:
+        pipelineRef:
+          name: kfp-pipeline-publish
+        serviceAccountName: pipeline
+        params:
+          - name: repo-url
+            value: $(tt.params.repo-url)
+          - name: repo-revision
+            value: main
+          - name: pipeline-script
+            value: pipeline.py
+          - name: kfp-api-url
+            value: $(tt.params.kfp-api-url)
+        workspaces:
+          - name: shared-workspace
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi

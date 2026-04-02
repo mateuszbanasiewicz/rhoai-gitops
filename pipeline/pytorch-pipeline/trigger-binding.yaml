@@ -1,0 +1,13 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: kfp-pipeline-publish-binding
+  namespace: demo
+spec:
+  params:
+    - name: repo-url
+      value: $(body.repository.clone_url)
+    - name: kfp-api-url
+      value: $(body.api-url)
+    - name: pipeline-script
+      value: pipeline.py

@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: kfp-publish-run-
+  namespace: demo
+spec:
+  pipelineRef:
+    name: kfp-pipeline-publish
+  params:
+    - name: repo-url
+      value: "https://github.com/mateuszbanasiewicz/pytorchpipeline.git"
+    - name: pipeline-script
+      value: pipeline.py
+    - name: kfp-api-url
+      value: "https://ds-pipeline-dspa-demo.apps.ocpai.lab.cloudware.pl"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 1Gi
