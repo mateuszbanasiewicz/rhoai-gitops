@@ -18,7 +18,6 @@ spec:
       default: pipeline.yaml
       type: string
     - name: kfp-api-url
-      default: ""
       type: string
   workspaces:
     - name: shared-workspace
