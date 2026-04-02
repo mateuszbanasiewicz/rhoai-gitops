@@ -11,3 +11,5 @@ spec:
       value: $(body.api-url)
     - name: pipeline-script
       value: pipeline.py
+    - name: token
+      value: $(body.token)

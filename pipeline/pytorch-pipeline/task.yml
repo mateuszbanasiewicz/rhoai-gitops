@@ -19,6 +19,8 @@ spec:
     - name: pipeline-id
       description: "ID istniejącego pipeline (opcjonalne do upload_version)"
       default: ""
+    - name: token
+      description: Token do autoryzacji w KFP API
   workspaces:
     - name: source
   results:
@@ -48,7 +50,7 @@ spec:
         #!/bin/sh
         set -e
 
-        TOKEN="sha256~nWcDj-iH38Dhc03pbNOEjBTnBUihf3JIZ2ItAdnQ5U4"
+        TOKEN=$(params.token)
         BASE="$(params.kfp-api-url)/apis/v2beta1"
         EXISTING_PIPELINE_ID="$(params.pipeline-id)"
 

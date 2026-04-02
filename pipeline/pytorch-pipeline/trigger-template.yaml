@@ -11,6 +11,7 @@ spec:
     - name: pipeline-script
       default: pipeline.py
     - name: kfp-api-url
+    - name: token
   resourcetemplates:
     - apiVersion: tekton.dev/v1
       kind: PipelineRun
@@ -30,6 +31,8 @@ spec:
             value: pipeline.py
           - name: kfp-api-url
             value: $(tt.params.kfp-api-url)
+          - name: token
+            value: $(tt.params.token)
         workspaces:
           - name: shared-workspace
             volumeClaimTemplate:

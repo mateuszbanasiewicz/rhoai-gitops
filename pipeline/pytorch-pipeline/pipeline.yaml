@@ -19,6 +19,8 @@ spec:
       type: string
     - name: kfp-api-url
       type: string
+    - name: token
+      type: string
   workspaces:
     - name: shared-workspace
   tasks:
@@ -57,3 +59,5 @@ spec:
         - name: pipeline-version
           # git commit SHA jako wersja
           value: $(tasks.clone.results.COMMIT)
+        - name: token
+          value: $(params.token)
