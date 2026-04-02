@@ -6,15 +6,20 @@ metadata:
 spec:
   params:
     - name: repo-url
-      description: "https://github.com/org/repo.git"
+      default: "https://github.com/org/repo.git"
+      type: string
     - name: repo-revision
       default: main
+      type: string
     - name: pipeline-script
       default: pipeline.py
+      type: string
     - name: pipeline-yaml
       default: pipeline.yaml
+      type: string
     - name: kfp-api-url
-      description: ""
+      default: ""
+      type: string
   workspaces:
     - name: shared-workspace
   tasks:
