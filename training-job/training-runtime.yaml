@@ -48,6 +48,8 @@ kind: TrainJob
 metadata:
   name: training-pytorch-trainjob
   namespace: demo
+  annotations:
+    argocd.argoproj.io/sync-options: Force=true,Replace=true
   labels:
     app: training-pytorch
     kueue.x-k8s.io/queue-name: default
