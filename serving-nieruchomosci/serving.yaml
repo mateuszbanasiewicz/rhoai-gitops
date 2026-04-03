@@ -19,7 +19,7 @@ metadata:
     networking.kserve.io/visibility: exposed
     opendatahub.io/dashboard: "true"
   name: nieruchomosci
-  namespace: demo
+  namespace: nieruchomosci
 spec:
   predictor:
     automountServiceAccountToken: false
@@ -59,7 +59,7 @@ metadata:
   labels:
     opendatahub.io/dashboard: "true"
   name: nieruchomosci
-  namespace: demo
+  namespace: nieruchomosci
 spec:
   annotations:
     opendatahub.io/kserve-runtime: ovms
