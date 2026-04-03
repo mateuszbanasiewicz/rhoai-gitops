@@ -33,9 +33,9 @@ spec:
             - containerPort: 8000
           env:
             - name: MODEL_NAME
-              value: "test333-v1"
+              value: "nieruchomosci"
             - name: MODEL_URL
-              value: "http://test333-v1-predictor.aaa.svc.cluster.local:8888"
+              value: "http://nieruchomosci-predictor.demo.svc.cluster.local:8888"
             - name: SCALER_PATH
               value: "/app/scaler.joblib"
           volumeMounts:
