@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: nieruchomosci-scaler
-  namespace: demo
+  namespace: nieruchomosci
 type: Opaque
 data:
   scaler.joblib: "gASVPQEAAAAAAACMG3NrbGVhcm4ucHJlcHJvY2Vzc2luZy5fZGF0YZSMDlN0YW5kYXJkU2NhbGVylJOUKYGUfZQojAl3aXRoX21lYW6UiIwId2l0aF9zdGSUiIwEY29weZSIjBFmZWF0dXJlX25hbWVzX2luX5SME2pvYmxpYi5udW1weV9waWNrbGWUjBFOdW1weUFycmF5V3JhcHBlcpSTlCmBlH2UKIwIc3ViY2xhc3OUjAVudW1weZSMB25kYXJyYXmUk5SMBXNoYXBllEsEhZSMBW9yZGVylIwBQ5SMBWR0eXBllGgPjAVkdHlwZZSTlIwCTziUiYiHlFKUKEsDjAF8lE5OTkr/////Sv////9LP3SUYowKYWxsb3dfbW1hcJSJjBtudW1weV9hcnJheV9hbGlnbm1lbnRfYnl0ZXOUSxB1YoAFlbkAAAAAAAAAjBZudW1weS5fY29yZS5tdWx0aWFycmF5lIwMX3JlY29uc3RydWN0lJOUjAVudW1weZSMB25kYXJyYXmUk5RLAIWUQwFilIeUUpQoSwFLBIWUaAOMBWR0eXBllJOUjAJPOJSJiIeUUpQoSwOMAXyUTk5OSv////9K/////0s/dJRiiV2UKIwEd2lla5SMBmRvY2hvZJSMCndpenl0eV93d3eUjA9jemFzX25hX3N0cm9uaWWUZXSUYi6VqQAAAAAAAACMDm5fZmVhdHVyZXNfaW5flEsEjA9uX3NhbXBsZXNfc2Vlbl+UjBZudW1weS5fY29yZS5tdWx0aWFycmF5lIwGc2NhbGFylJOUaBiMAmY4lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGJDCAAAAAAAULRAlIaUUpSMBW1lYW5flGgLKYGUfZQoaA5oEWgSSwSFlGgUaBVoFmgnaB6IaB9LEHViAf/RC73QC8VFQA0wZ9mUYMtAs/lnTJPhOEBN/N4snXckQJUqAAAAAAAAAIwEdmFyX5RoCymBlH2UKGgOaBFoEksEhZRoFGgVaBZoJ2geiGgfSxB1Ygz////////////////uqBynGuZrQNc68hqJHINBzj8Rq1oaaUCtNZLurd4/QJUsAAAAAAAAAIwGc2NhbGVflGgLKYGUfZQoaA5oEWgSSwSFlGgUaBVoFmgnaB6IaB9LEHViCv////////////+GgZ1TD+EtQKnfAWTZurhAdQFOkqpXLECDeTF+05QWQJUeAAAAAAAAAIwQX3NrbGVhcm5fdmVyc2lvbpSMBTEuOC4wlHViLg=="
@@ -13,7 +13,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nieruchomosci-app
-  namespace: demo
+  namespace: nieruchomosci
   labels:
     app: nieruchomosci-app
 spec:
@@ -35,7 +35,7 @@ spec:
             - name: MODEL_NAME
               value: "nieruchomosci"
             - name: MODEL_URL
-              value: "http://nieruchomosci-predictor.demo.svc.cluster.local:8888"
+              value: "http://nieruchomosci-predictor.nieruchomosci.svc.cluster.local:8888"
             - name: SCALER_PATH
               value: "/app/scaler.joblib"
           volumeMounts:
@@ -71,7 +71,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nieruchomosci-app
-  namespace: demo
+  namespace: nieruchomosci
 spec:
   selector:
     app: nieruchomosci-app
@@ -84,7 +84,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: nieruchomosci-app
-  namespace: demo
+  namespace: nieruchomosci
 spec:
   to:
     kind: Service
