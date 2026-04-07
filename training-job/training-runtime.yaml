@@ -61,7 +61,7 @@ spec:
 
   trainer:
     numNodes: 1
-    image: internal-quay-quay.apps.ocpai.lab.cloudware.pl/rhoai/pytorch-job:726e5ff
+    image: internal-quay-quay.apps.ocpai.lab.cloudware.pl/rhoai/pytorch-job:44b6969
     command:
       - python
       - /workspace/train.py
