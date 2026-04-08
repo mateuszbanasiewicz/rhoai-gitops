@@ -20,6 +20,7 @@ metadata:
     modelregistry.opendatahub.io/registered-model-id: '1'
     networking.kserve.io/visibility: exposed
     opendatahub.io/dashboard: 'true'
+    kueue.x-k8s.io/queue-name: default
 spec:
   predictor:
     automountServiceAccountToken: false
