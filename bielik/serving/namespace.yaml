@@ -6,6 +6,8 @@ metadata:
   labels:
     kubernetes.io/metadata.name: bielik
     opendatahub.io/dashboard: 'true'
+    kueue.openshift.io/managed: 'true'
+    kueue-managed: 'true'
   annotations:
     openshift.io/description: ''
     openshift.io/display-name: bielik

@@ -1,0 +1,16 @@
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: LocalQueue
+metadata:
+  annotations:
+    platform.opendatahub.io/instance.generation: '2'
+    platform.opendatahub.io/instance.name: default-kueue
+    platform.opendatahub.io/instance.uid: fb11cec2-7da6-4acf-b2e5-251362099c58
+    platform.opendatahub.io/type: OpenShift AI Self-Managed
+    platform.opendatahub.io/version: 3.3.0
+  name: default
+  namespace: bielik
+  labels:
+    platform.opendatahub.io/part-of: kueue
+spec:
+  clusterQueue: default
+  stopPolicy: None

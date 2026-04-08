@@ -48,7 +48,7 @@ spec:
         - name: AIOHTTP_CLIENT_SESSION_TOOL_SERVER_SSL
           value: "False"
         - name: OPENAI_API_BASE_URL
-          value: "http://bielik-v30-predictor.bielik.svc.cluster.local/v1"
+          value: "http://bielik-v30-predictor.bielik.svc.cluster.local:8080/v1"
         - name: OPENAI_API_KEY
           valueFrom:
             secretKeyRef:
