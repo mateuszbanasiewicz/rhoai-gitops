@@ -42,11 +42,11 @@ spec:
           nvidia.com/gpu: '1'
       runtime: bielik-v30
       storage:
-        key: nieruchomosci
+        key: bielik
         path: huggingface/speakleash/Bielik-11B-v3.0-Instruct/
     nodeSelector:
       workload.ai/gpu: 'true'
-    serviceAccountName: nieruchomosci-sa
+    serviceAccountName: bielik-sa
     tolerations:
       - effect: NoSchedule
         key: nvidia.com/gpu
