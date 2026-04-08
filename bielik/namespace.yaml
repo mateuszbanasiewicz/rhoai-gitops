@@ -1,0 +1,11 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: bielik
+  labels:
+    kubernetes.io/metadata.name: bielik
+    opendatahub.io/dashboard: 'true'
+  annotations:
+    openshift.io/description: ''
+    openshift.io/display-name: bielik
