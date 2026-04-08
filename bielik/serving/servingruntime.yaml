@@ -23,7 +23,6 @@ spec:
         - '--port=8080'
         - '--model=/mnt/models'
         - '--served-model-name={{.Name}}'
-        - '--metrics-port=8080'
       command:
         - python
         - '-m'
