@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bielik
+  name: bielik-chat
   namespace: openshift-gitops
 spec:
   destination:
@@ -9,6 +9,6 @@ spec:
     server: 'https://kubernetes.default.svc'
   project: default
   source:
-    path: bielik
+    path: bielik/chat
     repoURL: 'https://github.com/mateuszbanasiewicz/rhoai-gitops.git'
     targetRevision: main
